@@ -1,0 +1,11 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+trade_performance.csv
+trade_research_sheet.csv
+stocks_universe.xlsx
+stocks_universe.csv
+invalid_tickers.txt
+*.log
