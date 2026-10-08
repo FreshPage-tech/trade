@@ -1,5 +1,0 @@
-python-telegram-bot>=20,<23
-python-dotenv
-robin-stocks
-pandas
-numpy

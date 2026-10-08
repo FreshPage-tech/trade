@@ -81,7 +81,7 @@ def detect_chart_patterns(df: pd.DataFrame) -> Optional[Dict[str, Any]]:
     peaks, _ = find_peaks(high, distance=3, prominence=np.std(close) * 0.35)
     troughs, _ = find_peaks(-low, distance=3, prominence=np.std(close) * 0.35)
 
-    # 1. Inverse Head & Shoulders (~83% accuracy)
+    # 1. Inverse Head & Shoulders
     if len(troughs) >= 3 and len(peaks) >= 2:
         t1, t2, t3 = troughs[-3], troughs[-2], troughs[-1]
         p1, p2 = peaks[-2], peaks[-1]
@@ -92,7 +92,7 @@ def detect_chart_patterns(df: pd.DataFrame) -> Optional[Dict[str, Any]]:
         if head_is_deepest and shoulders_even and (latest_price >= neckline):
             return {
                 "pattern": "Inverse Head & Shoulders",
-                "accuracy": "83%",
+                "accuracy": "unverified",
                 "eta_hours": 48.0,
                 "eta_label": "2 Days",
                 "stop_loss": round(low[t3] - (0.5 * atr), 2),
@@ -100,7 +100,7 @@ def detect_chart_patterns(df: pd.DataFrame) -> Optional[Dict[str, Any]]:
                 "description": "Breakout above neckline with confirmed reversal"
             }
 
-    # 2. Triple Bottom (~78% accuracy)
+    # 2. Triple Bottom
     if len(troughs) >= 3 and len(peaks) >= 2:
         t1, t2, t3 = troughs[-3], troughs[-2], troughs[-1]
         trough_spread = max(low[t1], low[t2], low[t3]) - min(low[t1], low[t2], low[t3])
@@ -110,7 +110,7 @@ def detect_chart_patterns(df: pd.DataFrame) -> Optional[Dict[str, Any]]:
         if is_triple and (latest_price >= resistance):
             return {
                 "pattern": "Triple Bottom",
-                "accuracy": "78%",
+                "accuracy": "unverified",
                 "eta_hours": 24.0,
                 "eta_label": "1 Day",
                 "stop_loss": round(min(low[t1], low[t2], low[t3]) - (0.5 * atr), 2),
@@ -118,7 +118,7 @@ def detect_chart_patterns(df: pd.DataFrame) -> Optional[Dict[str, Any]]:
                 "description": "Triple bottom support bounce with resistance breakout"
             }
 
-    # 3. Double Bottom (~76% accuracy)
+    # 3. Double Bottom
     if len(troughs) >= 2 and len(peaks) >= 1:
         t1, t2 = troughs[-2], troughs[-1]
         is_double = abs(low[t1] - low[t2]) / low[t1] < 0.015
@@ -127,7 +127,7 @@ def detect_chart_patterns(df: pd.DataFrame) -> Optional[Dict[str, Any]]:
         if is_double and (latest_price >= neckline):
             return {
                 "pattern": "Double Bottom",
-                "accuracy": "76%",
+                "accuracy": "unverified",
                 "eta_hours": 8.0,
                 "eta_label": "8 Hours",
                 "stop_loss": round(min(low[t1], low[t2]) - (0.5 * atr), 2),
@@ -135,7 +135,7 @@ def detect_chart_patterns(df: pd.DataFrame) -> Optional[Dict[str, Any]]:
                 "description": "Double bottom breakout above neckline"
             }
 
-    # 4. Bullish Rectangle / Consolidation Breakout (~78% accuracy)
+    # 4. Bullish Rectangle / Consolidation Breakout
     if len(df) >= 20:
         recent_highs = high[-20:]
         recent_lows = low[-20:]
@@ -146,7 +146,7 @@ def detect_chart_patterns(df: pd.DataFrame) -> Optional[Dict[str, Any]]:
         if (box_range / latest_price < 0.035) and (latest_price > upper_box):
             return {
                 "pattern": "Rectangle Breakout",
-                "accuracy": "78%",
+                "accuracy": "unverified",
                 "eta_hours": 4.0,
                 "eta_label": "4 Hours",
                 "stop_loss": round(lower_box - (0.2 * atr), 2),
@@ -172,7 +172,7 @@ def evaluate_setup(df: pd.DataFrame, ticker: str, current_inventory: int = 0) ->
         "action": "HOLD",
         "price": price,
         "pattern": "None",
-        "accuracy": "N/A",
+        "accuracy": "unverified",
         "eta_hours": 0.0,
         "eta_label": "None",
         "stop_loss": 0.0,
@@ -211,7 +211,7 @@ def evaluate_setup(df: pd.DataFrame, ticker: str, current_inventory: int = 0) ->
 
             signal["action"] = "BUY"
             signal["pattern"] = "Stoikov Momentum Breakout"
-            signal["accuracy"] = "75%"
+            signal["accuracy"] = "unverified"
             signal["eta_hours"] = 4.0
             signal["eta_label"] = "4 Hours"
             signal["stop_loss"] = sl

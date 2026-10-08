@@ -1,0 +1,28 @@
+[Unit]
+Description=Modular quantitative trading daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=trader
+Group=trader
+WorkingDirectory=/opt/trading_engine
+EnvironmentFile=/opt/trading_engine/.env
+Environment=PYTHONPATH=/opt/trading_engine
+Environment=HOME=/var/lib/trading_engine
+Environment=PYTHONUNBUFFERED=1
+Environment=DATABASE_PATH=/var/lib/trading_engine/trading_engine.sqlite3
+ExecStart=/usr/bin/env DATABASE_PATH=/var/lib/trading_engine/trading_engine.sqlite3 /opt/trading_engine/.venv/bin/python -m trading_engine.main
+Restart=always
+RestartSec=10
+TimeoutStopSec=30
+KillSignal=SIGTERM
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/trading_engine
+
+[Install]
+WantedBy=multi-user.target

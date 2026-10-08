@@ -1,11 +1,10 @@
-.env
 .venv/
-venv/
 __pycache__/
 *.py[cod]
-trade_performance.csv
-trade_research_sheet.csv
-stocks_universe.xlsx
-stocks_universe.csv
-invalid_tickers.txt
+trading_engine/.env
+trading_engine/.venv/
+trading_engine/venv/
+trading_engine/data/
+*.sqlite3
+*.sqlite3-*
 *.log

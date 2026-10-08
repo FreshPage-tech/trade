@@ -1,0 +1,7 @@
+{
+  "equities": ["AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "META"],
+  "etfs": ["SPY", "QQQ", "IWM", "TLT", "GLD"],
+  "crypto": ["BTC/USD", "ETH/USD"],
+  "updated_at": "static-seed",
+  "notes": "Replace/refresh this list from a licensed data source. Crypto availability depends on broker and account jurisdiction."
+}
